@@ -1,4 +1,5 @@
-# CP373-Assignment
+# CP373 - Computer Networks, Winter 2025
+# Socket Programming Assignment 
 This assignment implements a simple client-server communication application. 
 
 Clients are able to:
