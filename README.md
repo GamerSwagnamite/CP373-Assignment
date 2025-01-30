@@ -3,8 +3,8 @@
 This assignment implements a simple client-server communication application. 
 
 Clients are able to:
-1. Connect to server
-2. Send messages to the server as input. These messages include:
+> Connect to server
+> > Send messages to the server as input. These messages include:
     a. “exit”, which will terminate the connection with the server and close the client
     b. “status”, which will ask the server for the contents of the cache
     c. “list”, which will ask the server for a list of files stored in the server repository
