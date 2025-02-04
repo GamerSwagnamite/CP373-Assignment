@@ -1,3 +1,14 @@
+# ----------------------------------------------------------------
+# CP372 - Computer Networks
+# ----------------------------------------------------------------
+# Name: Jordan Asmono and Tyler Rizzi
+# ID: 210922810 and 169022274
+# Email: asmo2810@mylaurier.ca and rizz2274@mylaurier.ca
+# Version: 2025-02-04
+# ----------------------------------------------------------------
+# Assignment 1 - Socket Programming (client.py)
+# ----------------------------------------------------------------
+
 import socket
 
 def start_client():
