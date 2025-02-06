@@ -48,13 +48,13 @@ def start_client():
                 # open the file in the client_files folder
                 filename = message[4:].strip()
                 directory = f"client_files/{filename}" 
-                fh = open(directory, "w")
+                fh = open(directory, "wb")
 
                 # write to file until "200 OK" is resent
-                line = client_socket.recv(1024).decode()
-                while line != "200 OK":
-                    fh.write(line)
-                    line = client_socket.recv(1024).decode()
+                data = client_socket.recv(1024)
+                while data != b"200 OK":
+                    fh.write(data)
+                    data = client_socket.recv(1024)
                 
                 # close file because resource management is important :)
                 fh.close()
