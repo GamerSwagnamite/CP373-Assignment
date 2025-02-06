@@ -12,10 +12,16 @@
 import socket
 
 def start_client():
+    print(f"CP372 - Computer Networks, Winter 2025\nSocket Programming Assignment - client.py\nJordan Asmono and Tyler Rizzi\n")
+
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     client_socket.connect(('localhost', 12345))  # Connect to the server
 
-    print("Connected to server! Type 'exit' to disconnect.")
+    # handshake to verify that a client has successfully connected to the server
+    handshake = client_socket.recv(1024).decode()
+    print(f"{handshake}")
+
+    # print("Connected to server! Type 'exit' to disconnect.")
 
     while True:
         message = input("Enter message ('status', 'list', 'get <filename>', 'exit'): ")

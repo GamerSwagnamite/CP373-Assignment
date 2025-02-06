@@ -86,6 +86,8 @@ def handle_client(client_socket, client_name, addr):
 # start server function
 # essentially our main function. sets up the server and separates each client onto a separate thread
 def start_server():
+    print(f"CP372 - Computer Networks, Winter 2025\nSocket Programming Assignment - server.py\nJordan Asmono and Tyler Rizzi\n")
+
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_socket.bind(('localhost', 12345))  # Bind to localhost on port 12345
     server_socket.listen(MAX_CLIENTS)
@@ -93,10 +95,18 @@ def start_server():
     print("Server is listening...")
     while True:
         if len(active_clients) < MAX_CLIENTS:
-            client_socket, addr = server_socket.accept()  # Accept client connection
+
+            # Accept client connection
+            client_socket, addr = server_socket.accept()  
             client_name = f"Client{len(client_cache) + 1}"
+
+            # complete the handshake for the client
+            handshake = f"Connected to the server as {client_name}. Type 'exit' to disconnect."
+            client_socket.send(handshake.encode())
+
+            # Start a new thread for the client
             thread = threading.Thread(target=handle_client, args=(client_socket, client_name, addr))
-            thread.start()  # Start a new thread for each client
+            thread.start()  
 
 if __name__ == '__main__':
     start_server()
