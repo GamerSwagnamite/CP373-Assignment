@@ -25,7 +25,7 @@ active_clients = {} # Dictionary to store active clients
 # infinite while loop run on its own thread when a client connects to the server
 # 
 # param client_socket - 
-# param client_name - 
+# param client_name - the name of the client being handled, formatted as Client<xx>
 # param addr - the IP address and port the client is accessing
 def handle_client(client_socket, client_name, addr):
     global active_clients, client_cache
@@ -60,7 +60,6 @@ def handle_client(client_socket, client_name, addr):
 
             # list condition
             # list all files in the server's repository
-            # Feb. 04: WIP - need clarification from Dr. Ali for now
             elif data.lower() == "list":
                 # Send list of files
                 files = os.listdir("server_files") if os.path.exists("server_files") else []
@@ -69,8 +68,23 @@ def handle_client(client_socket, client_name, addr):
 
             # get condition
             # transfer a file stored in the repository to the client
-            #elif data.startswith("get "):
-                # Handle file transfer
+            elif data.startswith("get "):
+                # handshake to confirm that file exists
+                filename = data[4:].strip()
+                directory = f"server_files/{filename}"
+                if os.path.exists(directory) == False:
+                    response = "404 Not Found"              # failure condition
+                    client_socket.send(response.encode())
+                else:
+                    response = "200 OK"                     # success condition
+                    client_socket.send(response.encode())
+
+                    # send file to client
+                    fh = open(directory, "w")
+
+                    # close file because we love resource management
+                    fh.close()
+                                  
 
             else:
                 # Append "ACK" to message and send it back

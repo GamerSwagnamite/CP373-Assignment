@@ -9,6 +9,8 @@
 # Assignment 1 - Socket Programming (client.py)
 # ----------------------------------------------------------------
 
+# imports
+import os
 import socket
 
 def start_client():
@@ -27,11 +29,33 @@ def start_client():
         message = input("Enter message ('status', 'list', 'get <filename>', 'exit'): ")
         client_socket.send(message.encode())
 
-        response = client_socket.recv(1024).decode()
-        print(f"From Server: {response}")
-
+        # exit condition
         if message.lower() == "exit":
             break
+
+        # get condition
+        elif message.startswith("get "):
+            # handshake to confirm that file exists. response is either "200 OK" or "404 Not Found"
+            response = client_socket.recv(1024).decode()
+            print(f"From Server: {response}")
+
+            # file successfully found
+            if response == "200 OK":
+                filename = message[4:].strip()
+                directory = f"client_files/{filename}" if os.path.exists("client_files") else os.makedirs("client_files")
+                fh = open(directory, "w")
+
+                fh.close()
+                
+
+
+
+        # general print statement for other conditions
+        else:
+            response = client_socket.recv(1024).decode()
+            print(f"From Server: {response}")
+
+
 
     client_socket.close()
 
