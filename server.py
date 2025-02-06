@@ -80,15 +80,15 @@ def handle_client(client_socket, client_name, addr):
                     client_socket.send(response.encode())
 
                     # send file to client
-                    fh = open(directory, "r")
-                    lines = fh.readlines()
-                    for line in lines:
-                        client_socket.send(str(line).encode())
-                    client_socket.send(response.encode())
+                    fh = open(directory, "rb")
+                    data = fh.read(1024)
+                    while data:
+                        client_socket.send(data)
+                        data = fh.read(1024)
+                    client_socket.send(b"200 OK")
 
                     # close file because we love resource management
                     fh.close()
-                                  
 
             else:
                 # Append "ACK" to message and send it back
