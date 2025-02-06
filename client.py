@@ -50,11 +50,17 @@ def start_client():
                 directory = f"client_files/{filename}" 
                 fh = open(directory, "wb")
 
+                # test print statement
+                print(f"Downloading file to {directory}...")
+
                 # write to file until "200 OK" is resent
                 data = client_socket.recv(1024)
                 while data != b"200 OK":
                     fh.write(data)
                     data = client_socket.recv(1024)
+
+                # test print statement
+                print("Download complete.")
                 
                 # close file because resource management is important :)
                 fh.close()

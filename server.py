@@ -80,12 +80,19 @@ def handle_client(client_socket, client_name, addr):
                     client_socket.send(response.encode())
 
                     # send file to client
+
+                    # test print statement
+                    print(f"Uploading file located at {directory}...")
+
                     fh = open(directory, "rb")
                     data = fh.read(1024)
                     while data:
                         client_socket.send(data)
                         data = fh.read(1024)
                     client_socket.send(b"200 OK")
+
+                    # test print statement
+                    print("Upload complete. ")
 
                     # close file because we love resource management
                     fh.close()
