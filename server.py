@@ -80,7 +80,11 @@ def handle_client(client_socket, client_name, addr):
                     client_socket.send(response.encode())
 
                     # send file to client
-                    fh = open(directory, "w")
+                    fh = open(directory, "r")
+                    lines = fh.readlines()
+                    for line in lines:
+                        client_socket.send(str(line).encode())
+                    client_socket.send(response.encode())
 
                     # close file because we love resource management
                     fh.close()

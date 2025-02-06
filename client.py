@@ -41,14 +41,23 @@ def start_client():
 
             # file successfully found
             if response == "200 OK":
+                # check if directory exists; otherwise, make the folder
+                if os.path.exists("client_files") == False:
+                    os.makedirs("client_files")
+                
+                # open the file in the client_files folder
                 filename = message[4:].strip()
-                directory = f"client_files/{filename}" if os.path.exists("client_files") else os.makedirs("client_files")
+                directory = f"client_files/{filename}" 
                 fh = open(directory, "w")
 
-                fh.close()
+                # write to file until "200 OK" is resent
+                line = client_socket.recv(1024).decode()
+                while line != "200 OK":
+                    fh.write(line)
+                    line = client_socket.recv(1024).decode()
                 
-
-
+                # close file because resource management is important :)
+                fh.close()
 
         # general print statement for other conditions
         else:
