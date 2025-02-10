@@ -10,6 +10,7 @@
 # ----------------------------------------------------------------
 
 # imports
+from datetime import datetime
 import os
 import socket
 
@@ -23,8 +24,6 @@ def start_client():
     handshake = client_socket.recv(1024).decode()
     print(f"{handshake}")
 
-    # print("Connected to server! Type 'exit' to disconnect.")
-
     while True:
         message = input("Enter message ('status', 'list', 'get <filename>', 'exit'): ")
         client_socket.send(message.encode())
@@ -37,7 +36,7 @@ def start_client():
         elif message.startswith("get "):
             # handshake to confirm that file exists. response is either "200 OK" or "404 Not Found"
             response = client_socket.recv(1024).decode()
-            print(f"From Server: {response}")
+            print(f"[{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}] From Server: {response}")
 
             # file successfully found
             if response == "200 OK":
@@ -51,7 +50,7 @@ def start_client():
                 fh = open(directory, "wb")
 
                 # test print statement
-                print(f"Downloading file to {directory}...")
+                print(f"[{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}] Downloading file to {directory}...")
 
                 # write to file until "200 OK" is resent
                 data = client_socket.recv(1024)
@@ -60,7 +59,7 @@ def start_client():
                     data = client_socket.recv(1024)
 
                 # test print statement
-                print("Download complete.")
+                print(f"[{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}] Download complete.")
                 
                 # close file because resource management is important :)
                 fh.close()
@@ -68,9 +67,7 @@ def start_client():
         # general print statement for other conditions
         else:
             response = client_socket.recv(1024).decode()
-            print(f"From Server: {response}")
-
-
+            print(f"{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}] From Server: {response}")
 
     client_socket.close()
 
