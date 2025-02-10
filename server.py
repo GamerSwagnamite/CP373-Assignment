@@ -106,7 +106,7 @@ def handle_client(client_socket, client_name, addr):
                 print(f"[{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}] Echoing {data} sent by {client_name}.")
 
         except Exception as e:
-            print(f"Error with client {addr}: {e}")
+            print(f"[{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}] Error with client {addr}: {e}")
             break
 
     del active_clients[client_name]  # Remove from active clients list

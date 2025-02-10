@@ -67,7 +67,7 @@ def start_client():
         # general print statement for other conditions
         else:
             response = client_socket.recv(1024).decode()
-            print(f"{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}] From Server: {response}")
+            print(f"[{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}] From Server: {response}")
 
     client_socket.close()
 
